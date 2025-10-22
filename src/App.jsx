@@ -1,13 +1,21 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Menu from "./pages/Menu";
+import Crud from "./pages/Crud";
 
 function App() {
-
   return (
-    <>
-      <h1 className='text-3xl bg-slate-500 font-bold underline'>Hello World</h1>
-    </>
-  )
+    <BrowserRouter>
+      <main>
+        <Routes>
+          <Route path="/" element={<p>ری اکت</p>} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/crud" element={<Crud />} />
+          <Route path="*" element={<p>Page not found</p>} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
