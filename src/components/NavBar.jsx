@@ -48,7 +48,9 @@ export default function NavBar({
         {categories.map((cat) => (
           <button
             key={cat.id}
-            onClick={() => scrollToCategory(cat.id)}
+            onClick={() => {
+              scrollToCategory(cat.id);
+            }}
             className={`px-4 py-2 text-sm lg:px-5 lg:py-2 lg:text-base font-semibold rounded-full transition-all duration-300 ${
               activeCategory === cat.id
                 ? "bg-[#1e88e5] text-white shadow-md"

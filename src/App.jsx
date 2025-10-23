@@ -11,6 +11,7 @@ function App() {
           <Route path="/" element={<p>ری اکت</p>} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/crud" element={<Crud />} />
+          <Route path="/Cashier" element={<Cashier />} />
           <Route path="*" element={<p>Page not found</p>} />
         </Routes>
       </main>
