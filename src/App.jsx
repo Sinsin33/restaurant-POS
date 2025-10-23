@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Menu from "./pages/Menu";
 import Crud from "./pages/Crud";
+import Cashier from "./pages/Cashier";
 
 function App() {
   return (
