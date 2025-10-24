@@ -692,9 +692,18 @@
   ],
 
   "tables": [
+    { "id": 1, "tableNumber": 1 },
+    { "id": 2, "tableNumber": 2 },
+    { "id": 3, "tableNumber": 3 },
+    { "id": 4, "tableNumber": 4 }
+  ],
+
+  "invoices": [
     {
       "id": 1,
-      "tableNumber": 1,
+      "sessionId": "T1-20251024-001",
+      "tableId": 1,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 1,
@@ -711,12 +720,14 @@
           "note": "گرم سرو شود"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-23T19:30:00Z",
+      "status": "open"
     },
     {
       "id": 2,
-      "tableNumber": 2,
+      "sessionId": "T2-20251024-001",
+      "tableId": 2,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 8,
@@ -726,12 +737,14 @@
           "note": "پنیر اضافه"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-23T19:40:00Z",
+      "status": "open"
     },
     {
       "id": 3,
-      "tableNumber": 3,
+      "sessionId": "T3-20251024-001",
+      "tableId": 3,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 7,
@@ -741,12 +754,14 @@
           "note": "بدون گوجه"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-23T19:45:00Z",
+      "status": "open"
     },
     {
       "id": 4,
-      "tableNumber": 4,
+      "sessionId": "T4-20251024-001",
+      "tableId": 4,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 2,
@@ -756,12 +771,14 @@
           "note": "افزودن جعفری تازه"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-23T20:00:00Z",
+      "status": "open"
     },
     {
       "id": 5,
-      "tableNumber": 5,
+      "sessionId": "T3-20251024-002",
+      "tableId": 3,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 8,
@@ -778,12 +795,14 @@
           "note": "سس جدا سرو شود"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-24T11:00:00Z",
+      "status": "open"
     },
     {
       "id": 6,
-      "tableNumber": 6,
+      "sessionId": "T1-20251024-002",
+      "tableId": 1,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 7,
@@ -800,12 +819,14 @@
           "note": "بدون خامه"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-24T12:15:00Z",
+      "status": "open"
     },
     {
       "id": 7,
-      "tableNumber": 7,
+      "sessionId": "T4-20251024-002",
+      "tableId": 4,
+      "isPaid": false,
       "orders": [
         {
           "itemId": 1,
@@ -822,8 +843,8 @@
           "note": "اضافه ریحان"
         }
       ],
-      "status": "open",
-      "createdAt": "2025-10-23T19:30:00Z"
+      "createdAt": "2025-10-24T12:45:00Z",
+      "status": "open"
     }
   ]
 }
