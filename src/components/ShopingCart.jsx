@@ -5,6 +5,7 @@ export default function ShopingCart({
   handleDeleteFromCart,
   isMobile = false,
   onClose = () => {},
+  theme,
 }) {
   const CartIcon = () => (
     <svg
@@ -45,13 +46,24 @@ export default function ShopingCart({
   }, 0);
 
   return (
-    <div className="w-full h-full lg:h-screen bg-[#212529] flex flex-col z-51">
-      <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-600">
+    <div
+      className="w-full h-full lg:h-screen flex flex-col z-51 transition-all duration-300"
+      style={{ backgroundColor: theme.bg }}
+    >
+      {/* Header */}
+      <div
+        className="flex items-center justify-between p-4 lg:p-6 border-b transition-all duration-300"
+        style={{ borderColor: theme.shadow }}
+      >
         <div className="flex items-center">
-          <CartIcon />
-          <h2 className="text-xl font-bold mr-2">سفارش</h2>
+          <h2 className="text-xl font-bold mr-2" style={{ color: theme.text }}>
+            سفارش
+          </h2>
           {cart.length > 0 && (
-            <span className="bg-[#1e88e5] text-white rounded-full px-2 py-1 text-xs">
+            <span
+              className="text-white rounded-full px-2 py-1 text-xs"
+              style={{ backgroundColor: theme.button.bg }}
+            >
               {cart.reduce((sum, item) => sum + item.quantity, 0)} قلم
             </span>
           )}
@@ -60,7 +72,12 @@ export default function ShopingCart({
         {isMobile && (
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white lg:hidden"
+            className="lg:hidden transition-colors duration-200"
+            style={{ color: theme.accent }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = theme.accentHover)
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.color = theme.accent)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,20 +97,34 @@ export default function ShopingCart({
         )}
       </div>
 
+      {/* Items */}
       <div className="flex-1 overflow-y-auto p-4 lg:p-6 min-h-[200px]">
         {cart.length === 0 ? (
-          <div className="text-center text-gray-400 mt-20">
+          <div className="text-center mt-20" style={{ color: theme.accent }}>
             سبد خرید خالی است.
           </div>
         ) : (
           <div className="space-y-3">
             {cart.map((item) => (
-              <div key={item.id} className="bg-[#282d32] p-3 lg:p-4 rounded-lg">
+              <div
+                key={item.id}
+                className="p-3 lg:p-4 rounded-lg transition-all duration-300"
+                style={{
+                  backgroundColor: theme.nav,
+                  boxShadow: `0 3px 6px ${theme.shadow}`,
+                }}
+              >
                 <div className="flex justify-between items-start mb-3">
-                  <p className="text-sm text-gray-300 font-semibold flex-1 text-right">
+                  <p
+                    className="text-sm font-semibold flex-1 text-right"
+                    style={{ color: theme.text }}
+                  >
                     {item.name}
                   </p>
-                  <p className="text-sm text-gray-300 font-semibold whitespace-nowrap mr-2">
+                  <p
+                    className="text-sm font-semibold whitespace-nowrap mr-2"
+                    style={{ color: theme.text }}
+                  >
                     {item.price}
                   </p>
                 </div>
@@ -102,8 +133,15 @@ export default function ShopingCart({
                   <div className="flex items-center space-x-2 space-x-reverse">
                     <button
                       onClick={() => handleDeleteFromCart(item.id)}
-                      className="text-red-500 hover:text-red-400 transition-colors duration-200 p-1"
+                      className="transition-colors duration-200 p-1"
                       title="حذف از سبد خرید"
+                      style={{ color: "#e53935" }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color = "#c62828")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.color = "#e53935")
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -121,10 +159,23 @@ export default function ShopingCart({
                       </svg>
                     </button>
 
-                    <div className="flex items-center bg-[#1b1e22] rounded-lg">
+                    <div
+                      className="flex items-center rounded-lg transition-all duration-200"
+                      style={{ backgroundColor: theme.bg }}
+                    >
                       <button
                         onClick={() => handleDecreaseQuantity(item.id)}
-                        className="p-2 text-gray-300 hover:text-white hover:bg-[#1e88e5] rounded-r-lg transition-colors duration-200"
+                        className="p-2 rounded-r-lg transition-colors duration-200"
+                        style={{ color: theme.text }}
+                        onMouseEnter={(e) => (
+                          (e.currentTarget.style.backgroundColor =
+                            theme.button.hover),
+                          (e.currentTarget.style.color = "black")
+                        )}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = theme.text;
+                        }}
                         title="کاهش تعداد"
                       >
                         <svg
@@ -143,13 +194,26 @@ export default function ShopingCart({
                         </svg>
                       </button>
 
-                      <span className="px-3 py-2 text-gray-100 font-bold min-w-[40px] text-center">
+                      <span
+                        className="px-3 py-2 font-bold min-w-[40px] text-center"
+                        style={{ color: theme.text }}
+                      >
                         {item.quantity}
                       </span>
 
                       <button
                         onClick={() => handleIncreaseQuantity(item.id)}
-                        className="p-2 text-gray-300 hover:text-white hover:bg-[#1e88e5] rounded-l-lg transition-colors duration-200"
+                        className="p-2 rounded-l-lg transition-colors duration-200"
+                        style={{ color: theme.text }}
+                        onMouseEnter={(e) => (
+                          (e.currentTarget.style.backgroundColor =
+                            theme.button.hover),
+                          (e.currentTarget.style.color = "black")
+                        )}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = theme.text;
+                        }}
                         title="افزایش تعداد"
                       >
                         <svg
@@ -172,7 +236,10 @@ export default function ShopingCart({
 
                   <div className="text-left">
                     <p className="text-xs text-gray-400">جمع:</p>
-                    <p className="text-sm font-bold text-gray-200">
+                    <p
+                      className="text-sm font-bold"
+                      style={{ color: theme.text }}
+                    >
                       {(
                         parseInt(item.price.replace(/[^0-9]/g, "")) *
                         item.quantity
@@ -182,7 +249,13 @@ export default function ShopingCart({
                   </div>
                 </div>
 
-                <div className="mt-2 pt-2 border-t border-gray-600 text-xs text-gray-400">
+                <div
+                  className="mt-2 pt-2 border-t text-xs"
+                  style={{
+                    borderColor: theme.shadow,
+                    color: theme.text,
+                  }}
+                >
                   هر عدد:{" "}
                   {parseInt(item.price.replace(/[^0-9]/g, "")).toLocaleString()}{" "}
                   تومان
@@ -193,14 +266,23 @@ export default function ShopingCart({
         )}
       </div>
 
-      <div className="border-t border-gray-600 p-4 lg:p-6">
+      {/* Footer */}
+      <div
+        className="border-t p-4 lg:p-6 transition-all duration-300"
+        style={{ borderColor: theme.shadow }}
+      >
         {cart.length > 0 && (
           <>
             <div className="flex justify-between text-lg font-bold mb-2">
-              <span>مجموع کل:</span>
-              <span>{total.toLocaleString()} تومان</span>
+              <span style={{ color: theme.text }}>مجموع کل:</span>
+              <span style={{ color: theme.text }}>
+                {total.toLocaleString()} تومان
+              </span>
             </div>
-            <div className="flex justify-between text-sm text-gray-400 mb-4">
+            <div
+              className="flex justify-between text-sm mb-4"
+              style={{ color: theme.text }}
+            >
               <span>
                 تعداد اقلام:{" "}
                 {cart.reduce((sum, item) => sum + item.quantity, 0)}
@@ -211,11 +293,19 @@ export default function ShopingCart({
         )}
 
         <button
-          className={`w-full text-white py-3 px-6 rounded-md font-bold text-sm transition-colors duration-200 flex items-center justify-center ${
-            cart.length === 0
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-[#35a448] hover:bg-[#2d8b3c]"
-          }`}
+          className="w-full text-white py-3 px-6 rounded-md font-bold text-sm transition-colors duration-200 flex items-center justify-center"
+          style={{
+            backgroundColor: cart.length === 0 ? "#777" : theme.button.bg,
+            cursor: cart.length === 0 ? "not-allowed" : "pointer",
+          }}
+          onMouseEnter={(e) => {
+            if (cart.length > 0)
+              e.currentTarget.style.backgroundColor = theme.button.hover;
+          }}
+          onMouseLeave={(e) => {
+            if (cart.length > 0)
+              e.currentTarget.style.backgroundColor = theme.button.bg;
+          }}
           disabled={cart.length === 0}
         >
           <span className="text-lg ml-2">ثبت سفارش</span>

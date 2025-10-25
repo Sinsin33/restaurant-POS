@@ -6,8 +6,60 @@ import NavBar from "../components/NavBar";
 import ItemDescription from "../components/ItemDescription";
 
 export default function Menu() {
-  const [categories, setCategories] = useState([]);
+  const themes = {
+    orange: {
+      bg: "#FDFBF7", // light ivory
+      text: "text-[#2b2b2b]",
+      nav: "#FFF8F0",
+      accent: "#ff8c42",
+      accentHover: "#ff6a00",
+      shadow: "rgba(255, 140, 66, 0.3)",
+      button: {
+        bg: "#ff8c42",
+        hover: "#ff6a00",
+      },
+    },
+    green: {
+      bg: "#FAFBF7",
+      text: "text-[#2b2b2b]",
+      nav: "#F5FAF3",
+      accent: "#4caf50",
+      accentHover: "#388e3c",
+      shadow: "rgba(76, 175, 80, 0.3)",
+      button: {
+        bg: "#4caf50",
+        hover: "#388e3c",
+      },
+    },
+    blue: {
+      bg: "#FAFBFD",
+      text: "text-[#1c1c1c]",
+      nav: "#F4F8FF",
+      accent: "#1e88e5",
+      accentHover: "#1565c0",
+      shadow: "rgba(30, 136, 229, 0.3)",
+      button: {
+        bg: "#1e88e5",
+        hover: "#1565c0",
+      },
+    },
+    red: {
+      bg: "#FDF9F9",
+      text: "text-[#2b2b2b]",
+      nav: "#FFF4F4",
+      accent: "#e53935",
+      accentHover: "#c62828",
+      shadow: "rgba(229, 57, 53, 0.3)",
+      button: {
+        bg: "#e53935",
+        hover: "#c62828",
+      },
+    },
+  };
 
+  const [categories, setCategories] = useState([]);
+  const [themeName] = useState("orange");
+  const theme = themes[themeName];
   const categoryRefs = useRef({});
   const [activeCategory, setActiveCategory] = useState("");
   const [cart, setCart] = useState([]);
@@ -187,23 +239,31 @@ export default function Menu() {
   };
   return (
     <div
-      className="flex flex-col lg:flex-row min-h-screen bg-[#1b1e22] text-gray-200"
+      className={`flex flex-col lg:flex-row min-h-screen ${theme.text}`}
+      style={{ backgroundColor: theme.bg }}
       dir="rtl"
     >
       <div className="flex-1 flex flex-col lg:w-3/4">
-        <div className="navBar sticky top-0 z-40 bg-[#212529] shadow-md p-2">
+        <div
+          className="navBar sticky top-0 z-40 shadow-md p-2"
+          style={{
+            backgroundColor: theme.nav,
+            boxShadow: `0 2px 6px ${theme.shadow}`,
+          }}
+        >
           {/* دسته بندی ها */}
           <div className="flex-1 w-full overflow-x-auto mb-3">
             <NavBar
               categories={categories}
               activeCategory={activeCategory}
               scrollToCategory={scrollToCategory}
+              theme={theme}
             />
           </div>
 
           {/* مرتب سازی */}
           <div className="flex justify-end">
-            <SortItems onSortChange={handleSortChange} />
+            <SortItems onSortChange={handleSortChange} theme={theme} />
           </div>
         </div>
 
@@ -216,17 +276,21 @@ export default function Menu() {
               id={cat.id}
               className="mb-12 lg:mb-16"
             >
-              <h2 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 border-b-2 border-[#1e88e5] pb-2">
+              <h2
+                className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 border-b-2 pb-2"
+                style={{ borderColor: theme.accent }}
+              >
                 {cat.name}
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols- md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
                 {cat.items.map((item) => (
                   <MenuItem
                     key={item.id}
                     item={item}
                     onAddToCart={handleAddToCart}
                     onItemClick={() => handleItemClick(item)}
+                    theme={theme} // ✅ pass full theme including theme.button
                   />
                 ))}
               </div>
@@ -240,34 +304,46 @@ export default function Menu() {
         className={`${
           isCartOpen ? "translate-x-0" : "translate-x-full"
         } lg:translate-x-0
-        fixed lg:sticky top-0 right-0 z-50
-        w-full max-w-md lg:w-1/4 lg:max-w-none
-        h-screen lg:h-screen
-        transition-transform duration-300 ease-in-out`}
+    fixed lg:sticky top-0 right-0 z-50
+    w-full max-w-md lg:w-1/4 lg:max-w-none
+    h-screen lg:h-screen
+    transition-transform duration-300 ease-in-out`}
       >
         <ShopingCart
           cart={cart}
           handleRemoveFromCart={handleRemoveFromCart}
           handleAddToCart={handleAddToCart}
-          handleDeleteFromCart={handleDeleteFromCart} // Add this line
+          handleDeleteFromCart={handleDeleteFromCart}
           isMobile={true}
           onClose={() => setIsCartOpen(false)}
+          theme={theme} // ✅ pass theme with button colors
         />
       </div>
 
       {isCartOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50  lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setIsCartOpen(false)}
         />
       )}
 
       <button
         onClick={() => setIsCartOpen(!isCartOpen)}
-        className="lg:hidden fixed bottom-6 left-6 z-40 bg-[#1e88e5] text-white px-5 py-3 rounded-full shadow-lg hover:bg-[#1565c0] transition"
+        className="lg:hidden fixed bottom-6 left-6 z-40 text-white px-5 py-3 rounded-full shadow-lg transition"
+        style={{
+          backgroundColor: theme.accent,
+          boxShadow: `0 4px 10px ${theme.shadow}`,
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.backgroundColor = theme.accentHover)
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.backgroundColor = theme.accent)
+        }
       >
         🛒 سبد خرید ({cart.reduce((sum, i) => sum + i.quantity, 0)})
       </button>
+
       {isItemDescriptionOpen && clickedItem && (
         <ItemDescription
           item={clickedItem}
