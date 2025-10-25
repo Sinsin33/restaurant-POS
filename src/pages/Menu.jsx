@@ -8,7 +8,7 @@ import ItemDescription from "../components/ItemDescription";
 export default function Menu() {
   const themes = {
     orange: {
-      bg: "#FDFBF7", // light ivory
+      bg: "#FDFBF7",
       text: "text-[#2b2b2b]",
       nav: "#FFF8F0",
       accent: "#ff8c42",
@@ -290,7 +290,7 @@ export default function Menu() {
                     item={item}
                     onAddToCart={handleAddToCart}
                     onItemClick={() => handleItemClick(item)}
-                    theme={theme} // ✅ pass full theme including theme.button
+                    theme={theme}
                   />
                 ))}
               </div>
@@ -316,7 +316,7 @@ export default function Menu() {
           handleDeleteFromCart={handleDeleteFromCart}
           isMobile={true}
           onClose={() => setIsCartOpen(false)}
-          theme={theme} // ✅ pass theme with button colors
+          theme={theme}
         />
       </div>
 
