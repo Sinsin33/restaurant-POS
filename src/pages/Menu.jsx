@@ -9,6 +9,7 @@ export default function Menu() {
   const themes = {
     orange: {
       bg: "#FDFBF7",
+
       text: "text-[#2b2b2b]",
       nav: "#FFF8F0",
       accent: "#ff8c42",
@@ -58,7 +59,7 @@ export default function Menu() {
   };
 
   const [categories, setCategories] = useState([]);
-  const [themeName] = useState("orange");
+  const [themeName] = useState("green");
   const theme = themes[themeName];
   const categoryRefs = useRef({});
   const [activeCategory, setActiveCategory] = useState("");
