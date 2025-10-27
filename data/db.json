@@ -704,13 +704,15 @@
       "sessionId": "T1-20251024-001",
       "tableId": 1,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T11:30:00Z",
       "orders": [
         {
           "itemId": 1,
           "name": "سالاد سزار",
           "price": 120000,
           "quantity": 2,
-          "note": "بدون سس"
+          "note": "سس جدا سرو شود"
         },
         {
           "itemId": 2,
@@ -720,131 +722,218 @@
           "note": "گرم سرو شود"
         }
       ],
-      "createdAt": "2025-10-23T19:30:00Z",
-      "status": "open"
+      "discounts": [
+        { "type": "percentage", "value": 10, "reason": "وفاداری مشتری" }
+      ],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 325000,
+        "discountTotal": 32500,
+        "taxAmount": 26235,
+        "finalPrice": 318735,
+        "paidAmount": 0,
+        "remainingPrice": 318735
+      }
     },
+
     {
       "id": 2,
       "sessionId": "T2-20251024-001",
       "tableId": 2,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T12:00:00Z",
       "orders": [
         {
           "itemId": 8,
           "name": "پیتزا مارگاریتا",
           "price": 180000,
           "quantity": 1,
-          "note": "پنیر اضافه"
+          "note": "اضافه پنیر"
         }
       ],
-      "createdAt": "2025-10-23T19:40:00Z",
-      "status": "open"
+      "discounts": [],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 180000,
+        "discountTotal": 0,
+        "taxAmount": 16200,
+        "finalPrice": 196200,
+        "paidAmount": 0,
+        "remainingPrice": 196200
+      }
     },
+
     {
       "id": 3,
       "sessionId": "T3-20251024-001",
       "tableId": 3,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T12:45:00Z",
       "orders": [
         {
-          "itemId": 7,
-          "name": "کباب کوبیده",
-          "price": 250000,
-          "quantity": 3,
-          "note": "بدون گوجه"
+          "itemId": 5,
+          "name": "چلو کباب سلطانی",
+          "price": 350000,
+          "quantity": 1,
+          "note": "برنج کمتر"
+        },
+        {
+          "itemId": 6,
+          "name": "دوغ سنتی",
+          "price": 25000,
+          "quantity": 2,
+          "note": "خنک"
         }
       ],
-      "createdAt": "2025-10-23T19:45:00Z",
-      "status": "open"
+      "discounts": [],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 400000,
+        "discountTotal": 0,
+        "taxAmount": 36000,
+        "finalPrice": 436000,
+        "paidAmount": 0,
+        "remainingPrice": 436000
+      }
     },
+
     {
       "id": 4,
       "sessionId": "T4-20251024-001",
       "tableId": 4,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T13:10:00Z",
       "orders": [
         {
-          "itemId": 2,
-          "name": "سوپ قارچ",
-          "price": 85000,
+          "itemId": 10,
+          "name": "استیک مرغ",
+          "price": 280000,
           "quantity": 2,
-          "note": "افزودن جعفری تازه"
+          "note": "با سس قارچ"
         }
       ],
-      "createdAt": "2025-10-23T20:00:00Z",
-      "status": "open"
+      "discounts": [
+        { "type": "flat", "value": 30000, "reason": "اشتباه سفارش قبلی" }
+      ],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 560000,
+        "discountTotal": 30000,
+        "taxAmount": 47730,
+        "finalPrice": 577730,
+        "paidAmount": 0,
+        "remainingPrice": 577730
+      }
     },
+
     {
       "id": 5,
-      "sessionId": "T3-20251024-002",
-      "tableId": 3,
+      "sessionId": "T5-20251024-001",
+      "tableId": 5,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T13:30:00Z",
       "orders": [
         {
-          "itemId": 8,
-          "name": "پیتزا مارگاریتا",
-          "price": 180000,
+          "itemId": 3,
+          "name": "پاستا آلفردو",
+          "price": 190000,
           "quantity": 2,
-          "note": "پنیر اضافه"
+          "note": "اضافه قارچ"
         },
         {
-          "itemId": 1,
-          "name": "سالاد سزار",
-          "price": 120000,
-          "quantity": 1,
-          "note": "سس جدا سرو شود"
+          "itemId": 9,
+          "name": "لیموناد طبیعی",
+          "price": 40000,
+          "quantity": 2,
+          "note": "بدون یخ"
         }
       ],
-      "createdAt": "2025-10-24T11:00:00Z",
-      "status": "open"
+      "discounts": [
+        { "type": "percentage", "value": 5, "reason": "کد تخفیف آنلاین" }
+      ],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 460000,
+        "discountTotal": 23000,
+        "taxAmount": 39330,
+        "finalPrice": 476330,
+        "paidAmount": 0,
+        "remainingPrice": 476330
+      }
     },
+
     {
       "id": 6,
-      "sessionId": "T1-20251024-002",
-      "tableId": 1,
+      "sessionId": "T6-20251024-001",
+      "tableId": 6,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T14:00:00Z",
       "orders": [
         {
-          "itemId": 7,
-          "name": "کباب کوبیده",
-          "price": 250000,
-          "quantity": 1,
-          "note": "برنج کمتر"
-        },
-        {
-          "itemId": 2,
-          "name": "سوپ قارچ",
-          "price": 85000,
-          "quantity": 1,
-          "note": "بدون خامه"
+          "itemId": 4,
+          "name": "برگر مخصوص",
+          "price": 160000,
+          "quantity": 3,
+          "note": "با سیب‌زمینی بیشتر"
         }
       ],
-      "createdAt": "2025-10-24T12:15:00Z",
-      "status": "open"
+      "discounts": [],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 480000,
+        "discountTotal": 0,
+        "taxAmount": 43200,
+        "finalPrice": 523200,
+        "paidAmount": 0,
+        "remainingPrice": 523200
+      }
     },
+
     {
       "id": 7,
-      "sessionId": "T4-20251024-002",
-      "tableId": 4,
+      "sessionId": "T7-20251024-001",
+      "tableId": 7,
       "isPaid": false,
+      "status": "open",
+      "createdAt": "2025-10-24T14:30:00Z",
       "orders": [
         {
-          "itemId": 1,
-          "name": "سالاد سزار",
-          "price": 120000,
-          "quantity": 1,
-          "note": "اضافه پنیر"
+          "itemId": 11,
+          "name": "کیک شکلاتی",
+          "price": 90000,
+          "quantity": 3,
+          "note": "با خامه"
         },
         {
-          "itemId": 8,
-          "name": "پیتزا مارگاریتا",
-          "price": 180000,
-          "quantity": 1,
-          "note": "اضافه ریحان"
+          "itemId": 12,
+          "name": "قهوه اسپرسو",
+          "price": 60000,
+          "quantity": 2,
+          "note": "بدون شکر"
         }
       ],
-      "createdAt": "2025-10-24T12:45:00Z",
-      "status": "open"
+      "discounts": [{ "type": "flat", "value": 15000, "reason": "تولد مشتری" }],
+      "tax": { "type": "VAT", "rate": 9 },
+      "payments": [],
+      "summary": {
+        "subtotal": 390000,
+        "discountTotal": 15000,
+        "taxAmount": 33750,
+        "finalPrice": 408750,
+        "paidAmount": 0,
+        "remainingPrice": 408750
+      }
     }
   ]
 }
