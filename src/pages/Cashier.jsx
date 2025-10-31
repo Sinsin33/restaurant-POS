@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 const initialState = {
   invoices: [],
@@ -11,13 +11,19 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "setInvoices":
-      return { ...state, invoices: action.payload };
+      return {
+        ...state,
+        invoices: action.payload,
+      };
 
     case "changePayment":
       return { ...state, selectedPayment: action.payload };
 
     case "changeActiveInvoice":
-      return { ...state, activeInvoice: action.payload };
+      return {
+        ...state,
+        activeInvoice: action.payload,
+      };
 
     case "changeDiscount":
       return { ...state, discount: action.payload };
@@ -49,6 +55,32 @@ function reducer(state, action) {
 
       return { ...state, invoices: updatedInvoices };
     }
+    case "addPayment": {
+      const { invoiceId, amount } = action.payload;
+
+      const updatedInvoices = state.invoices.map((invoice) => {
+        if (invoice.id === invoiceId) {
+          const newPaid = (invoice.summary.paidAmount || 0) + amount;
+          const remaining = Math.max(0, invoice.summary.finalPrice - newPaid);
+
+          return {
+            ...invoice,
+            payments: [
+              ...invoice.payments,
+              { amount, date: new Date().toISOString() },
+            ],
+            summary: {
+              ...invoice.summary,
+              paidAmount: newPaid,
+              remainingPrice: remaining,
+            },
+          };
+        }
+        return invoice;
+      });
+
+      return { ...state, invoices: updatedInvoices };
+    }
 
     default:
       return state;
@@ -57,6 +89,8 @@ function reducer(state, action) {
 
 export default function Cashier() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [showPartialPay, setShowPartialPay] = useState(false);
+  const [partialAmount, setPartialAmount] = useState(0);
 
   useEffect(() => {
     async function fetchInvoices() {
@@ -64,6 +98,7 @@ export default function Cashier() {
         const res = await fetch("http://localhost:8000/invoices");
         if (!res.ok) throw new Error("Failed to fetch invoices");
         const data = await res.json();
+        console.log(data);
         dispatch({ type: "setInvoices", payload: data });
       } catch (err) {
         console.error("Error fetching invoices:", err);
@@ -71,17 +106,68 @@ export default function Cashier() {
     }
     fetchInvoices();
   }, []);
+  const handlePartialPay = async () => {
+    if (!partialAmount || partialAmount <= 0) return alert("مبلغ نامعتبر است");
+    if (!state.activeInvoice) return alert("فاکتوری انتخاب نشده است");
+
+    const invoice = state.invoices.find(
+      (inv) => inv.id === state.activeInvoice
+    );
+    if (!invoice) return alert("Invoice not found in state");
+
+    const newPayment = {
+      amount: partialAmount,
+      method: state.selectedPayment || "نقدی",
+      date: new Date().toISOString(),
+    };
+
+    const updatedPayments = [...invoice.payments, newPayment];
+    const newPaidAmount = (invoice.summary.paidAmount || 0) + partialAmount;
+    const newRemaining = Math.max(
+      0,
+      invoice.summary.finalPrice - newPaidAmount
+    );
+
+    try {
+      // PATCH only what exists in JSON Server
+      const res = await fetch(`http://localhost:8000/invoices/${invoice.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...invoice,
+          payments: updatedPayments,
+          summary: {
+            ...invoice.summary,
+            paidAmount: newPaidAmount,
+            remainingPrice: newRemaining,
+          },
+        }),
+      });
+
+      if (!res.ok) throw new Error(`PATCH failed with status ${res.status}`);
+
+      // Update local state
+      dispatch({
+        type: "addPayment",
+        payload: { invoiceId: invoice.id, amount: partialAmount },
+      });
+
+      setPartialAmount(0);
+      setShowPartialPay(false);
+      alert("پرداخت با موفقیت ثبت شد");
+    } catch (err) {
+      console.error("Error adding payment:", err);
+      alert(`خطا در ثبت پرداخت: ${err.message}`);
+    }
+  };
 
   const currentInvoice = state.invoices.find(
     (inv) => inv.id === state.activeInvoice
   );
-
-  const totalPrice = currentInvoice
-    ? currentInvoice.orders.reduce(
-        (sum, order) => sum + order.price * order.quantity,
-        0
-      )
-    : 0;
+  const totalPrice = currentInvoice?.summary?.finalPrice || 0;
+  const remainingPrice = currentInvoice?.summary?.remainingPrice || 0;
+  const paidPrcie = currentInvoice?.summary?.paidAmount || 0;
+  const priceToPay = remainingPrice - state.discount;
 
   const miniCalculator =
     currentInvoice?.orders?.reduce(
@@ -101,7 +187,7 @@ export default function Cashier() {
           onChange={(e) =>
             dispatch({
               type: "changeActiveInvoice",
-              payload: Number(e.target.value),
+              payload: e.target.value,
             })
           }
           className="w-full p-3 rounded-lg bg-[#2a2f35] border border-[#3a3f45]
@@ -202,18 +288,25 @@ export default function Cashier() {
               value={state.discount}
               onChange={(e) => {
                 const value = Number(e.target.value);
-                const validDiscount = Math.max(0, Math.min(value, totalPrice));
+                const validDiscount = Math.max(
+                  0,
+                  Math.min(value, remainingPrice)
+                );
                 dispatch({ type: "changeDiscount", payload: validDiscount });
               }}
               className="w-full p-2 rounded-lg bg-[#2a2f35] border border-[#3a3f45] text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#1e88e5]"
             />
           </div>
-
           <p className="text-lg font-bold mt-4">
-            قابل پرداخت: {(totalPrice - state.discount).toLocaleString()} تومان
+            پرداخت شده: {paidPrcie} تومان
           </p>
-          <p className="text-lg font-bold mt-4">پرداخت شده: {0} تومان</p>
-          <p className="text-lg font-bold mt-4">باقی مانده: {0} تومان</p>
+          <p className="text-lg font-bold mt-4">
+            باقی مانده: {remainingPrice} تومان
+          </p>
+          <p className="text-lg font-bold mt-4">
+            قابل پرداخت: {priceToPay.toLocaleString()} تومان
+          </p>
+
           <select
             value={state.selectedPayment}
             onChange={(e) =>
@@ -230,6 +323,35 @@ export default function Cashier() {
           </select>
         </div>
       )}
+      {/* پرداخت در چند مرحله */}
+      <div className="mt-6">
+        <button
+          onClick={() => setShowPartialPay((prev) => !prev)}
+          className="w-full bg-[#1e88e5] hover:bg-[#1565c0] text-white py-2 rounded-lg font-bold transition"
+        >
+          پرداخت در چند مرحله
+        </button>
+
+        {showPartialPay && (
+          <div className="mt-4 flex flex-col gap-3">
+            <input
+              type="number"
+              placeholder="مبلغ پرداختی"
+              value={partialAmount}
+              onChange={(e) => setPartialAmount(Number(e.target.value))}
+              className="w-full p-2 rounded-lg bg-[#2a2f35] border border-[#3a3f45]
+                   text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#1e88e5]"
+            />
+
+            <button
+              onClick={handlePartialPay}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-bold transition"
+            >
+              ثبت پرداخت
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
