@@ -129,7 +129,6 @@ export default function Cashier() {
     );
 
     try {
-      // PATCH only what exists in JSON Server
       const res = await fetch(`http://localhost:8000/invoices/${invoice.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -146,7 +145,6 @@ export default function Cashier() {
 
       if (!res.ok) throw new Error(`PATCH failed with status ${res.status}`);
 
-      // Update local state
       dispatch({
         type: "addPayment",
         payload: { invoiceId: invoice.id, amount: partialAmount },
